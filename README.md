@@ -1,2 +1,2 @@
 # customer-churn-prediction
-Customer churn prediction in Pythom 
+Customer churn prediction in Python
