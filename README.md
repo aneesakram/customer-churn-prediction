@@ -1,34 +1,31 @@
-# Customer Churn Prediction
 
-An end-to-end machine learning pipeline to identify customers at risk of churning. This project analyzes historical customer data, performs feature engineering, and trains predictive models to optimize customer retention strategies.
+## Introduction to the notebook
+This Jupyter Notebook walks through a complete customer churn prediction workflow using real-world telecom billing data. We analyze whether customers are likely to leave their service provider based on their subscription characteristics, usage history, and tenure with the company.
 
-## 🚀 Project Overview
-Customer churn occurs when customers stop doing business with a company. Predicting churn allows businesses to proactively engage at-risk customers with targeted retention campaigns. This repository features a comprehensive Jupyter notebook (`churnModel.ipynb`) covering the entire data science lifecycle.
+## Purpose of this notebook
+The goal is twofold: understand what drives customer churn through exploratory analysis AND build accurate predictive models that can flag at-risk customers for retention efforts. Businesses use such insights to reduce attrition, maintain revenue stability, and improve overall customer satisfaction.
 
-## 📊 Workflow & Methodology
+---
+### Notebook Structure Overview
 
-### 1. Data Exploration & Preprocessing
-* **Exploratory Data Analysis (EDA):** Investigating class imbalances, feature distributions, and correlations between customer demographics, account information, and churn status.
-* **Data Cleaning:** Handling missing or null values and converting data types where necessary.
-* **Feature Encoding & Scaling:** Using techniques like One-Hot Encoding for categorical variables and Standard/MinMax Scaling for continuous numerical features.
+1️⃣ **Exploratory Data Analysis & Feature Investigation** - We use box plots for continuous numerical variables and binary column comparisons to understand patterns in the data. This helps us identify which factors most strongly correlate with churn status.
 
-### 2. Feature Engineering
-* Selecting and transforming key features (e.g., tenure, monthly charges, contract types, and support tickets) to maximize model predictive power.
-* Addressing class imbalance using techniques such as SMOTE (Synthetic Minority Over-sampling Technique) or adjusting class weights.
+2️⃣ **Quantitative Modeling (Univariate Approach)** - Each feature is evaluated individually using Logistic Regression coefficients, helping isolate independent effects of MonthlyCharges, TotalCharges, tenure and other variables on customer retention probability.
 
-### 3. Model Training & Evaluation
-Multiple machine learning algorithms are trained and compared to find the optimal solution, typically including:
-* Logistic Regression (Baseline)
-* Random Forest Classifier
-* XGBoost / LightGBM Gradient Boosting
+3️⃣ **Multivariate Modeling** - Multiple regression combines all features simultaneously to capture their joint influence on churn while accounting for feature interactions and correlations among predictors (e.g., MonthlyCharges vs TotalCharges correlation test).
 
-**Evaluation Metrics Focus:**
-* **Accuracy:** Overall correctness.
-* **Precision & Recall:** Minimizing false positives while ensuring as many actual churning customers are caught as possible (High Recall is crucial for churn).
-* **F1-Score & ROC-AUC:** Balancing precision/recall and evaluating overall classification performance.
+4️⃣ **Binary Feature Analysis** - We examine 1+ subscription service categories alongside churn status. The analysis reveals that customers subscribing to multiple services show significantly lower churn rates, supporting the brand loyalty hypothesis: more interconnected value propositions create higher switching costs and reduce willingness to leave.
 
-## 🛠️ Tech Stack & Libraries
-* **Language:** Python
-* **Data Analysis:** Pandas, NumPy
-* **Visualization:** Matplotlib, Seaborn
-* **Machine Learning:** Scikit-Learn, XGBoost
+5️⃣ **Model Preprocessing** - Categorical variables are one-hot encoded using ColumnTransformer with `handle_unknown='ignore'` for robustness to unseen categories. A Random Forest Classifier Pipeline is built alongside a Logistic Regression pipeline featuring StandardScaler preprocessing.
+
+6️⃣ **Model Training & Evaluation (RandomForestClassifier vs LogisticRegression)** - Both models fit on 80% training data and validate performance via standard metrics: accuracy, precision, recall, F1 score, plus confusion matrices for interpretability of false positives/negatives in churn prediction context. RandomForestClassifier gave rise to best score out of the two models.
+
+---
+### Key Insights from the Analysis
+
+**Customer Segments Most Likely to Churn:**  Customers with high monthly charges, low service breadth (fewer subscriptions), and short tenure are at highest churn risk. TotalCharges correlates strongly with MonthlyCharges over time—long-term customers naturally have higher total spend but also lower churn probability due to accumulated value relationship with provider.
+
+**Business Implications for Retention Strategy:**  - **Focus on early-tenure high-value customers**: Monitor those in first year of subscription, especially if they've only taken one service plan (e.g., basic line or standalone internet). These represent prime retention investment targets where customer experience intervention could prevent costly churn events.  
+- **Bundle services strategically** across segments: Customers who subscribe to multiple services exhibit significantly lower churn—cross-selling opportunities and bundled offers can increase switching barriers. 
+
+- **Prioritize service retention**: When a customer cancels one subscription line or plan feature, the likelihood of additional cancellations increases rapidly—retain at least one anchor offering even if other services become less valuable. 
